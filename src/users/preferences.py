@@ -1,4 +1,5 @@
 import requests
+import httpx
 from src.config import API_BASE_URL
 
 def get_preferences(user_id, token):
