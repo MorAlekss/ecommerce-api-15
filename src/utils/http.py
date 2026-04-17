@@ -1,4 +1,4 @@
-import requests
+import httpx
 from src.config import API_BASE_URL, API_KEY
 
 DEFAULT_HEADERS = {
@@ -6,32 +6,37 @@ DEFAULT_HEADERS = {
     "X-API-Key": API_KEY,
 }
 
-def get(url, params=None, headers=None):
+async def get(url, params=None, headers=None):
     merged_headers = {**DEFAULT_HEADERS, **(headers or {})}
-    response = requests.get(url, params=params, headers=merged_headers)
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url, params=params, headers=merged_headers)
     response.raise_for_status()
     return response.json()
 
-def post(url, data=None, headers=None):
+async def post(url, data=None, headers=None):
     merged_headers = {**DEFAULT_HEADERS, **(headers or {})}
-    response = requests.post(url, json=data, headers=merged_headers)
+    async with httpx.AsyncClient() as client:
+        response = await client.post(url, json=data, headers=merged_headers)
     response.raise_for_status()
     return response.json()
 
-def put(url, data=None, headers=None):
+async def put(url, data=None, headers=None):
     merged_headers = {**DEFAULT_HEADERS, **(headers or {})}
-    response = requests.put(url, json=data, headers=merged_headers)
+    async with httpx.AsyncClient() as client:
+        response = await client.put(url, json=data, headers=merged_headers)
     response.raise_for_status()
     return response.json()
 
-def patch(url, data=None, headers=None):
+async def patch(url, data=None, headers=None):
     merged_headers = {**DEFAULT_HEADERS, **(headers or {})}
-    response = requests.patch(url, json=data, headers=merged_headers)
+    async with httpx.AsyncClient() as client:
+        response = await client.patch(url, json=data, headers=merged_headers)
     response.raise_for_status()
     return response.json()
 
-def delete(url, headers=None):
+async def delete(url, headers=None):
     merged_headers = {**DEFAULT_HEADERS, **(headers or {})}
-    response = requests.delete(url, headers=merged_headers)
+    async with httpx.AsyncClient() as client:
+        response = await client.delete(url, headers=merged_headers)
     response.raise_for_status()
     return response.status_code
